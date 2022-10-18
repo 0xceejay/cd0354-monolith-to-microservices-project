@@ -30,7 +30,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: ./udagram-frontend
+          context: ./udagram-reverseproxy
           file: ./udagram-reverseproxy/Dockerfile
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/udagram-reverseproxy:latest
