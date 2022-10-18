@@ -31,6 +31,16 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: ./udagram-frontend
+          file: ./udagram-reverseproxy/Dockerfile
+          push: true
+          tags: ${{secrets.DOCKER_USERNAME}}/udagram-reverseproxy:latest
+          cache-from: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-reverseproxy:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-reverseproxy:buildcache,mode=max
+    -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./udagram-frontend
           file: ./udagram-frontend/Dockerfile
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/udagram-frontend:local
