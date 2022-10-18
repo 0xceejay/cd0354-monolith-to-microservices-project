@@ -20,13 +20,38 @@ jobs:
         DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-    - name: Build the Docker image
-      run: docker build . --file ./udagram-api-feed/Dockerfile --tag 0xceejay:udagram-api-feed$(date +%s)
-        docker build . --file ./udagram-api-user/Dockerfile --tag 0xceejay:udagram-api-user$(date +%s)
-        docker build . --file ./udagram-frontend/Dockerfile --tag 0xceejay:udagram-frontend$(date +%s)
-        docker build . --file ./udagram-reverseproxy/Dockerfile --tag 0xceejay:udagram-reverseproxy$(date +%s)
-    - name: Docker Push
-      run:  docker push ${{secrets.DOCKER_USER}}/udagram-api-feed
-        docker push ${{secrets.DOCKER_USER}}/udagram-api-user
-        docker push ${{secrets.DOCKER_USER}}/udagram-frontend
-        docker push ${{secrets.DOCKER_USER}}/udagram-reverseproxy
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    -
+      name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./udagram-api-feed/Dockerfile
+        push: true
+        tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-feed:latest
+    -
+      name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./udagram-api-user/Dockerfile
+        push: true
+        tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-user:latest
+    -
+      name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./udagram-reverseproxy/Dockerfile
+        push: true
+        tags: ${{secrets.DOCKER_USERNAME}}/udagram-reverseproxy:latest
+    -
+      name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        file: ./udagram-frontend/Dockerfile
+        push: true
+        tags: ${{secrets.DOCKER_USERNAME}}/udagram-frontend:local
