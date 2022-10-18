@@ -30,7 +30,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./udagram-frontend
           file: ./udagram-frontend/Dockerfile
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/udagram-frontend:local
