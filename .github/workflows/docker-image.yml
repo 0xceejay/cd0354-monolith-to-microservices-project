@@ -34,3 +34,5 @@ jobs:
           file: ./udagram-frontend/Dockerfile
           push: true
           tags: ${{secrets.DOCKER_USERNAME}}/udagram-frontend:local
+          cache-from: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-frontend:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-frontend:buildcache,mode=max
