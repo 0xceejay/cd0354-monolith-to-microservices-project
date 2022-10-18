@@ -1,0 +1,32 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: Build the Docker image
+      run: docker build . --file ./udagram-api-feed/Dockerfile --tag 0xceejay:udagram-api-feed$(date +%s)
+        docker build . --file ./udagram-api-user/Dockerfile --tag 0xceejay:udagram-api-user$(date +%s)
+        docker build . --file ./udagram-frontend/Dockerfile --tag 0xceejay:udagram-frontend$(date +%s)
+        docker build . --file ./udagram-reverseproxy/Dockerfile --tag 0xceejay:udagram-reverseproxy$(date +%s)
+    - name: Docker Push
+      run:  docker push ${{secrets.DOCKER_USER}}/udagram-api-feed
+        docker push ${{secrets.DOCKER_USER}}/udagram-api-user
+        docker push ${{secrets.DOCKER_USER}}/udagram-frontend
+        docker push ${{secrets.DOCKER_USER}}/udagram-reverseproxy
