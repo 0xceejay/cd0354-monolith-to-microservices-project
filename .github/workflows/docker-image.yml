@@ -53,7 +53,7 @@ jobs:
           context: ./udagram-api-feed
           file: ./udagram-api-feed/Dockerfile
           push: true
-          tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-feed:local
+          tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-feed:latest
           cache-from: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-feed:buildcache
           cache-to: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-feed:buildcache,mode=max
     -
@@ -63,6 +63,6 @@ jobs:
           context: ./udagram-api-user
           file: ./udagram-api-user/Dockerfile
           push: true
-          tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-user:local
+          tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-user:latest
           cache-from: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-user:buildcache
           cache-to: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-user:buildcache,mode=max
