@@ -46,3 +46,23 @@ jobs:
           tags: ${{secrets.DOCKER_USERNAME}}/udagram-frontend:local
           cache-from: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-frontend:buildcache
           cache-to: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-frontend:buildcache,mode=max
+    -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./udagram-api-feed
+          file: ./udagram-api-feed/Dockerfile
+          push: true
+          tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-feed:local
+          cache-from: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-feed:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-feed:buildcache,mode=max
+    -
+        name: Build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: ./udagram-api-user
+          file: ./udagram-api-user/Dockerfile
+          push: true
+          tags: ${{secrets.DOCKER_USERNAME}}/udagram-api-user:local
+          cache-from: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-user:buildcache
+          cache-to: type=registry,ref=${{secrets.DOCKER_USERNAME}}/udagram-api-user:buildcache,mode=max
